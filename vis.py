@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
-from utils import get_feature_model
+from utils import get_feature_model, process_image
 
 
 def plot_loss():
@@ -29,26 +29,26 @@ def plot_loss():
     plt.show()
 
 
-def plot_reduce_dimension():
+def plot_reduce_dimension(model):
     """Plot reduced dimension result wiht t-SNE.
+
+    # Arguments
+        model: Model, face features extraction model.
     """
-    model = get_feature_model()
 
     outputs = []
     n = 8
-    paths = 'data/val'
+    paths = 'data/grimace'
+    dirs = np.random.choice(os.listdir(paths), n)
 
-    for (root, dirs, files) in os.walk(paths):
+    for d in dirs:
+        p = paths + '/' + str(d)
+        files = os.listdir(p)
         if files:
             for f in files:
-                img = os.path.join(root, f)
+                img = os.path.join(p, f)
                 image = cv2.imread(img)
-                image = cv2.resize(image, (64, 64),
-                                   interpolation=cv2.INTER_CUBIC)
-                image = np.array(image, dtype='float32')
-                image /= 255.
-                image = np.expand_dims(image, axis=0)
-
+                image = process_image(image)
                 output = model.predict(image)[0]
                 outputs.append(output)
 
@@ -66,6 +66,43 @@ def plot_reduce_dimension():
     plt.show()
 
 
+def compare_distance(model):
+    """Compare the features distances of different people.
+
+    # Arguments
+        model: Model, face features extraction model.
+    """
+
+    dists = []
+    outputs = []
+    paths = 'images/person/'
+
+    for i in range(6):
+        img = paths + str(i) + '.jpg'
+        image = cv2.imread(img)
+        image = process_image(image)
+
+        output = model.predict(image)[0]
+        outputs.append(output)
+
+    vec1 = outputs[0]
+    for vec2 in outputs:
+        dist = np.linalg.norm(vec1 - vec2)
+        dists.append(dist)
+
+    print(dists[1:])
+
+    plt.bar(range(1, 6), (dists[1:]), color='lightblue')
+    plt.xlabel('Person')
+    plt.ylabel('Euclidean distance')
+    plt.title('Similarity')
+    plt.grid(True)
+    plt.show()
+
+
 if __name__ == '__main__':
+    model = get_feature_model()
+
     plot_loss()
-    plot_reduce_dimension()
+    plot_reduce_dimension(model)
+    compare_distance(model)

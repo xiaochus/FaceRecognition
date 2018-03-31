@@ -22,7 +22,8 @@ def read_img(path):
     for (root, dirs, files) in os.walk(path):
         if files:
             tmp = []
-            for f in files[-4:]:
+            files = np.random.choice(files, 4)
+            for f in files:
                 img = os.path.join(root, f)
                 image = cv2.imread(img)
                 image = cv2.resize(image, (64, 64),
@@ -63,8 +64,8 @@ def get_paris(path):
                         sm1.append(pi)
                         sm2.append(pj)
             else:
-                df1.extend(p1)
-                df2.extend(p2)
+                df1.append(p1[0])
+                df2.append(p2[0])
 
     df1 = df1[:len(sm1)]
     df2 = df2[:len(sm2)]

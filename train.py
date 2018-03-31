@@ -9,7 +9,7 @@ def train():
     """Train the face recognition network.
     """
     model = get_model((64, 64, 3))
-    X_train, X_test, y_train, y_test = get_train_test('data/faces96')
+    X_train, X_test, y_train, y_test = get_train_test('data/grimace')
 
     hist = model.fit_generator(create_generator(X_train, y_train, 40),
                                steps_per_epoch=70,
