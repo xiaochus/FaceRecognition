@@ -7,7 +7,7 @@ OpenCV 3 &amp; Keras implementation of face recognition for specific people.
 - Tensorflow-gpu 1.5.0  
 - Keras 2.1.3
 - scikit-learn 0.19
-- OpenCV 3.2
+- OpenCV 3.4
 
 ## Model
 
@@ -25,6 +25,11 @@ Due to the limited computational resources, we used Face Recognition Data to tra
 	dataset: Face Recognition Data - grimace (University of Essex, UK)
 	optimizer: Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-08)  
 	batch_szie: 40 
+
+run the command below to show the experiment result.
+```
+python vis.py
+```
 
 ### Train and val loss
 
@@ -45,4 +50,18 @@ We use person 1 as the person to be identified, then compare the Euclidean dista
 
 ## Application
 
-**TODO**
+run the command below to train the model.
+```
+python train.py
+```
+
+The app use haar cascade classifier or SSD to detect face，use MobileNetv2 to recognize face.
+
+run the command below to run the app to recognize a specific people from video camera.
+ 
+Press **esc** to  quit window.
+Press **space** 5 times to record different gestures of the face. The face id were saved at `data\key.npy`
+
+```
+python face.py
+```

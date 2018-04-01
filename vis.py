@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
-from utils import get_feature_model, process_image
+from utils.utils import get_feature_model, process_image
 
 
 def plot_loss():
@@ -103,6 +103,6 @@ def compare_distance(model):
 if __name__ == '__main__':
     model = get_feature_model()
 
-    plot_loss()
-    plot_reduce_dimension(model)
+    # plot_loss()
+    # plot_reduce_dimension(model)
     compare_distance(model)

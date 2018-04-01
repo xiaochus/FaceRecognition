@@ -36,6 +36,11 @@ def contrastive_loss(y_true, y_pred):
         Output: Double, contrastive loss.
     """
     margin = 1.
+    """
+    l1 = K.mean(y_true) * K.square(y_pred)
+    l2 = (1 - y_true) *  K.square(K.maximum(margin - y_pred, 0.))
+    loss = l1 + l2
+    """
     return K.mean((1. - y_true) * K.square(y_pred) + y_true * K.square(K.maximum(margin - y_pred, 0.)))
 
 
