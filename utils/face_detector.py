@@ -13,7 +13,7 @@ class FaceDetector:
         self.t = threshold
 
         if type == 'harr':
-            self.detector = self._create_harr_detector()
+            self.detector = self._create_haar_detector()
         elif type == 'ssd':
             self.detector = self._create_ssd_detector()
         else:
