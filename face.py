@@ -69,7 +69,12 @@ class Face:
         # Returns
             feat: ndarray (128, ), face feature.
         """
+        f_h, f_w = frame.shape[:2]
         x, y, w, h = face
+        x = max(0, x)
+        y = max(0, y)
+        w = min(f_w - x, w)
+        h = min(f_h - y, h)
         img = frame[y: y + h, x: x + w, :]
         image = u.process_image(img)
         feat = self._model.predict(image)[0]
